@@ -29,6 +29,8 @@
 #include <osl/diagnose.h>
 #include <IMark.hxx>
 #include <swserv.hxx>
+#include <swrect.hxx>
+#include <DropDownFormFieldButton.hxx>
 
 namespace com {
     namespace sun {
@@ -42,6 +44,7 @@ namespace com {
 
 struct SwPosition;  // fwd Decl. wg. UI
 class SwDoc;
+class SwEditWin;
 
 namespace sw {
     namespace mark {
@@ -245,6 +248,7 @@ namespace sw {
             virtual void ReleaseDoc(SwDoc* const pDoc) override;
         };
 
+        /// Fieldmark representing a checkbox form field.
         class CheckboxFieldmark
             : virtual public ICheckboxFieldmark
             , public Fieldmark
@@ -255,6 +259,27 @@ namespace sw {
             virtual void ReleaseDoc(SwDoc* const pDoc) override;
             bool IsChecked() const override;
             void SetChecked(bool checked) override;
+        };
+
+        /// Fieldmark representing a drop-down form field.
+        class DropDownFieldmark
+            : public Fieldmark
+        {
+        public:
+            DropDownFieldmark(const SwPaM& rPaM);
+            virtual ~DropDownFieldmark();
+            virtual void InitDoc(SwDoc* const io_pDoc, sw::mark::InsertMode eMode) override;
+            virtual void ReleaseDoc(SwDoc* const pDoc) override;
+
+            // This method should be called only by the portion so we can now the portion's painting area
+            void SetPortionPaintArea(const SwRect& rPortionPaintArea);
+
+            void ShowButton(SwEditWin* pEditWin);
+            void HideButton();
+
+        private:
+            SwRect m_aPortionPaintArea;
+            VclPtr<DropDownFormFieldButton> m_pButton;
         };
     }
 }

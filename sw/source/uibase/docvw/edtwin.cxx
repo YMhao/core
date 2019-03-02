@@ -4611,12 +4611,6 @@ void SwEditWin::MouseButtonUp(const MouseEvent& rMEvt)
                                         rCheckboxFm.SetChecked(!rCheckboxFm.IsChecked());
                                         rCheckboxFm.Invalidate();
                                         rSh.InvalidateWindows( m_rView.GetVisArea() );
-                                    } else if ( fieldBM->GetFieldname() == ODF_FORMDROPDOWN ) {
-                                        m_rView.ExecFieldPopup( aDocPt, fieldBM );
-                                        fieldBM->Invalidate();
-                                        rSh.InvalidateWindows( m_rView.GetVisArea() );
-                                    } else {
-                                        // unknown type..
                                     }
                                 }
                             }

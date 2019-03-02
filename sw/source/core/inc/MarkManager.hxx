@@ -24,10 +24,15 @@
 #include <IDocumentMarkAccess.hxx>
 #include <unordered_set>
 #include <unordered_map>
+#include <memory>
+
+class SwCursorShell;
 
 namespace sw {
     namespace mark {
     typedef std::unordered_map<OUString, sal_Int32> MarkBasenameMapUniqueOffset_t;
+
+    class DropDownFieldmark;
 
     class MarkManager
         : virtual public IDocumentMarkAccess
@@ -87,6 +92,9 @@ namespace sw {
 
             virtual void deleteFieldmarkAt(const SwPosition& rPos) override;
 
+            virtual void NotifyCursorUpdate(const SwCursorShell& rCursorShell) override;
+            virtual void ClearFieldActivation() override;
+
             void dumpAsXml(struct _xmlTextWriter* pWriter) const;
 
             // Annotation Marks
@@ -124,6 +132,8 @@ namespace sw {
             container_t m_vAnnotationMarks;
 
             SwDoc * const m_pDoc;
+
+            sw::mark::DropDownFieldmark* m_pLastActiveFieldmark;
     };
     } // namespace mark
 }

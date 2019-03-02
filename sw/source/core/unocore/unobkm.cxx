@@ -654,6 +654,8 @@ SwXFieldmark::CreateXFieldmark(SwDoc & rDoc, ::sw::mark::IMark *const pMark,
             pXBkmk = new SwXFieldmark(false, &rDoc);
         else if (dynamic_cast< ::sw::mark::CheckboxFieldmark* >(pMark))
             pXBkmk = new SwXFieldmark(true, &rDoc);
+        else if (dynamic_cast< ::sw::mark::DropDownFieldmark* >(pMark))
+            pXBkmk = new SwXFieldmark(true, &rDoc);
         else
             pXBkmk = new SwXFieldmark(isReplacementObject, &rDoc);
 
